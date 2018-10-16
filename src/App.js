@@ -1,28 +1,55 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import logo from './images/logo.png';
+import './styles/App.css';
+import Card from './components/card';
+import NewPost from './components/newPost';
+import {connect} from 'react-redux';
+//import {bindActionCreators} from 'redux';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      flag: false
+    }
+  }
+  clicked = () => {
+   this.setState({ flag: true })
+  }
+
+  display=(props)=>{
+    this.props.posts.map(item => {
+      return(
+        <Card posts={item} />
+      )
+    })
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <h1> Post Comments </h1>
         </header>
+        <div className="container m-5">
+          {this.state.flag ? <NewPost /> :
+            <div className="row mb-4">
+              <div className="col">
+                <button type="button" className="btn btn-primary" onClick={this.clicked}>Add Comment</button>
+              </div>
+            </div>}
+            {this.props.posts ? this.display() : null}
+        </div>
       </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state){
+  return {
+    posts: state.post
+  }
+}
+export default connect(mapStateToProps,null)(App);
