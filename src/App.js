@@ -19,6 +19,9 @@ class App extends Component {
   clicked = () => {
    this.setState({ flag: true })
   }
+  submitted=()=>{
+    this.setState({ flag: false })
+  }
 
   display=()=>{
     return(
@@ -35,7 +38,7 @@ class App extends Component {
           <h3> Post Comments </h3>
         </header>
         <div className="container m-5">
-          {this.state.flag ? <NewPost /> :
+          {this.state.flag ? <NewPost flag={this.submitted} /> :
             <div className="row mb-4">
               <div className="col">
                 <button type="button" className="btn btn-primary" onClick={this.clicked}>Add Comment</button>

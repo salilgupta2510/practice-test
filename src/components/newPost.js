@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 
 class NewPost extends Component {
   handleChange=(event)=>{
+    event.preventDefault();
+    this.props.flag()
     var name = event.target.name.value
     var title = event.target.title.value
     var data = event.target.comment.value
