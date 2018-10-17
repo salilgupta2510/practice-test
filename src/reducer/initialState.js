@@ -1,3 +1,9 @@
 export default {
-  posts: []
+  posts: [
+    {
+      name: "salil",
+      title: "abc",
+      data: "xyz"
+    }
+  ]
 };

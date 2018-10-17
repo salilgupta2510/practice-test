@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+import {addPost} from '../actions/addPost';
+import { bindActionCreators } from 'redux';
 
 
 class NewPost extends Component {
+  handleChange=(event)=>{
+    var name = event.target.name.value
+    var title = event.target.title.value
+    var data = event.target.comment.value
+    var newPost = {name,title,data}
+    this.props.addPost(newPost)
+  }
   render() {
     console.log("New Post");
     return ( 
@@ -10,7 +20,7 @@ class NewPost extends Component {
           <div className="alert alert-danger" role="alert">
             All fields are required.
           </div>
-          <form>
+          <form onSubmit={(e)=>this.handleChange(e)}>
             <div className="form-group">
               <label name="name">Name</label>
               <input type="text" className="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter user name" />
@@ -35,4 +45,9 @@ class NewPost extends Component {
   }
 }
 
-export default NewPost;
+function mapDispatchToProps(dispatch){
+  return {
+    addPost: bindActionCreators(addPost, dispatch)
+  }
+}
+export default connect(null, mapDispatchToProps)(NewPost);

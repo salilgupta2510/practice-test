@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import logo from './images/logo.png';
+// import logo from './images/logo.png';
 import './styles/App.css';
 import Card from './components/card';
 import NewPost from './components/newPost';
 import {connect} from 'react-redux';
-//import {bindActionCreators} from 'redux';
+import * as postAction from './actions/postsAction';
+import { bindActionCreators } from 'redux';
+
 
 class App extends Component {
   constructor(props) {
@@ -18,20 +20,19 @@ class App extends Component {
    this.setState({ flag: true })
   }
 
-  display=(props)=>{
-    this.props.posts.map(item => {
-      return(
-        <Card posts={item} />
-      )
-    })
+  display=()=>{
+    return(
+    <Card posts={this.props.posts}/>
+    );
   }
 
   render() {
+   console.log(">>>123",this.props.posts)
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1> Post Comments </h1>
+          {/* <img src={logo} className="App-logo" alt="logo" /> */}
+          <h3> Post Comments </h3>
         </header>
         <div className="container m-5">
           {this.state.flag ? <NewPost /> :
@@ -41,6 +42,7 @@ class App extends Component {
               </div>
             </div>}
             {this.props.posts ? this.display() : null}
+            
         </div>
       </div>
     );
@@ -49,7 +51,13 @@ class App extends Component {
 
 function mapStateToProps(state){
   return {
-    posts: state.post
+    posts: state.posts
   }
 }
-export default connect(mapStateToProps,null)(App);
+
+function mapDispatchToProps(dispatch){
+  return {
+    postAction: bindActionCreators(postAction, dispatch)
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(App);
